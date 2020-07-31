@@ -1,0 +1,97 @@
+End Goal:
+
+-Improve the weights of the network with respect to the error
+
+Subdivided Goals:
+
+-Improve the weights of the network with respect to the error
+	-Find error
+		-Square error function: 0.5*(expected - actual)^2
+	-Find the partial derivative of error with respect to each weight
+
+Process:
+
+1. Find dE/dwij for the output neurons
+
+-E -> error
+-wij -> axon connecting neuron i from the previous layer to neuron j in the current layer
+	-dE/dwij = (dE/doj)*(doj/dnetj)*(dnetj/dwij)
+-oj -> output of the neuron j in the current layer
+-netj -> input of the neuron j in the current layer (weighted sum of previous layer)
+	-dnetj/dwij = oi (derivation on wikipedia)
+-oi -> output of the neuron i in the previous layer that feeds into the axon
+	-doj/dnetj = oj*(1-oj) (derivation on wikipedia, this is based on the derivative of sigmoid)
+	-dE/doj = dE/dy for the output layer, since oj is the output, y
+-y -> actual output of the network
+	-dE/dy = d/dy(E) = d/dy(0.5*(expected-y)^2) = y-expected
+therefore,
+	-dE/dwij = (y-expected)*(oj*(1-oj))*(oi)
+or	
+
+-dE/dwij = (actual-expected)*(output of current neuron * (1 - output of current neuron))*(output of previous neuron)
+
+adjust the weight wij by -n*(dE/dwij) where n is a small positive number, determining learning rate.
+
+2. Find dE/dwij for the hidden neurons
+
+-E -> error
+-wij -> axon connecting neuron i from the previous layer to neuron j in the current layer
+	-dE/dwij = (dE/doj)*(doj/dnetj)*(dnetj/dwij)
+-oj -> output of the neuron j in the current layer
+-netj -> input of the neuron j in the current layer (weighted sum of previous layer)
+	-dnetj/dwij = oi (derivation on wikipedia)
+-oi -> output of the neuron i in the previous layer that feeds into the axon
+	-doj/dnetj = oj*(1-oj) (derivation on wikipedia, this is based on the derivative of sigmoid)
+	-dE/doj =
+		-Let L = set of all neurons receiving an input from neuron j in the current layer
+		-find the sum of (dE/dol)*(dol/dnetl)*(wjl) for all neurons l in L
+		-where dE/dol should be previously calculated and stored (going from right to left)
+		-where dol/dnetl = ol*(1-ol) and should be previously calculated and stored
+		-where wjl is the weight of the axon going from neuron j in the current layer to neuron l in the next
+therefore, if values are stored going right to left, for layers l already calculated,
+	-dE/dwij = (sum of (dE/dol)*(dol/netl)*(wjl) for all neurons l in L)*(oj*(1-oj))*(oi)
+
+adjust the weight wij by -n*(dE/dwij) where n is a small positive number, determining learning rate.
+
+3. repeat process for additional training data. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
